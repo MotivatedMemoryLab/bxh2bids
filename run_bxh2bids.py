@@ -5,7 +5,7 @@ import os
 import json
 
 #The sessions you wish to put into BIDS format right now
-to_run = ['19338']
+to_run = ["19492", "19497", "19589", "19671"]
 
 #The json file containing information about your study sessions
 hopes_dreams_file = '../CBT/bxh2bids_hopes_dreams.json'
