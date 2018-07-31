@@ -702,16 +702,18 @@ def create_internal_info(bxh_file, ses_dict, multi_bxh_info_dict):
         template = json.loads(fd.read())
     #Make sure the scan description is in the template
     if bxh_desc not in template.keys():
-        logging.error('Scan description not found in template file!')
-        logging.error('Description: '+str(bxh_desc))
-        logging.error('Template File: '+str(template_file))
-        raise RuntimeError('Scan description not found in template file!')
-    
+        # logging.error('Scan description not found in template file!')
+        # logging.error('Description: '+str(bxh_desc))
+        # logging.error('Template File: '+str(template_file))
+        # raise RuntimeError('Scan description not found in template file!')
+        this_entry_dict['scan_type'] = "func"
+        this_entry_dict['scan_label'] = "bold"
+    else:    
     #Store the BIDS scan type (func, anat, dwi, fmap),
     #BIDS scan label (T1w, bold, etc.),
     #BIDS subject ID, and BIDS session label into the dictionary to return.
-    this_entry_dict['scan_type'] = template[bxh_desc]['type']
-    this_entry_dict['scan_label'] = scan_label = template[bxh_desc]['label']
+        this_entry_dict['scan_type'] = template[bxh_desc]['type']
+        this_entry_dict['scan_label'] = template[bxh_desc]['label']
     this_entry_dict['sub'] = ses_dict['sub']
     this_entry_dict['ses'] = ses_dict['ses']
 
