@@ -1,44 +1,43 @@
 
-###############################################
-#Function:  bxh2bids.py
-#
-#Purpose:  This script creates a copy of imaging data for use in
-#           the BIDS format.  The data are assumed to be stored in the following
-#           directory structure:
-#               .../STUDY/Data/Anat/ID1
-#                                  /ID2
-#                             /Func/ID1
-#                                  /ID2
-#           This script will attempt to create directories associated with an input
-#           subject and session number.
-#
-#           Information on BIDS: http://bids.neuroimaging.io/
-#           
-#           Right now this script also depends on the file "description_types.json"
-#           being in the same directory as this file. "description_types.json" serves
-#           as a link between scan descriptions and BIDS modality types.
-#
-#Inputs:
-#           Data ID (original directory number; "IDZ" above) (dataid)
-#           Subject BIDS ID/number
-#           Session BIDS ID/name
-#           Source study dir ("STUDY" above) (source_study_dir)
-#           BIDS study dir (contains "sub-zz" directories) (target_study_dir)
-#           Log file dir (log_dir)
-#
-#Outputs:
-#          A log file will be written to the passed log directory
-#
-#Returns:
-#          NA
-#
-#Example Call:
-#           
-#
-#
-# Created 09/2017 by John Graner; Center for Cognitive Neuroscience, LaBar Lab, Duke University
-############################################
+"""
+Function:  bxh2bids.py
 
+Purpose:  This script creates a copy of imaging data for use in
+           the BIDS format.  The data are assumed to be stored in the following
+           directory structure:
+               .../STUDY/Data/Anat/ID1
+                                  /ID2
+                             /Func/ID1
+                                  /ID2
+           This script will attempt to create directories associated with an input
+           subject and session number.
+
+           Information on BIDS: http://bids.neuroimaging.io/
+           
+           Right now this script also depends on the file "description_types.json"
+           being in the same directory as this file. "description_types.json" serves
+           as a link between scan descriptions and BIDS modality types.
+
+Inputs:
+           Data ID (original directory number; "IDZ" above) (dataid)
+           Subject BIDS ID/number
+           Session BIDS ID/name
+           Source study dir ("STUDY" above) (source_study_dir)
+           BIDS study dir (contains "sub-zz" directories) (target_study_dir)
+           Log file dir (log_dir)
+
+Outputs:
+          A log file will be written to the passed log directory
+
+Returns:
+          NA
+
+Example Call:
+           
+
+
+ Created 09/2017 by John Graner; Center for Cognitive Neuroscience, LaBar Lab, Duke University
+"""
 import json
 import xmltodict
 import os, re, shutil, sys
@@ -46,6 +45,11 @@ import logging, time
 import bxh_pick_fields
 import string
 import gzip
+
+
+bidsid = None
+sesid = None
+bxh_desc = None
 
 
 def copy_image(image_to_copy, full_output):
@@ -662,7 +666,7 @@ def convert_bxh(bxh_file, bxh_info_dict, target_study_dir=None):
     elif bxh_info_dict['scan_type'] == 'notsupported':
         logging.info('Scan type not supported for: '+str(bxh_file))
     else:
-        logging.error('Scan type not recognized; should be [bold,anat,dwi]: '+str(scan_type))
+        logging.error('Scan type not recognized; should be [bold,anat,dwi]: '+str(bxh_info_dict['scan_type']))
         raise RuntimeError('Scan type not recognized!')
         
     logging.info('----FINISH: convert_bxh----')
@@ -969,10 +973,11 @@ def multi_bxhtobids(dataid, ses_dict, source_study_dir, target_study_dir, log_di
 
     logging.info('-----FINISH: multi_bxhtobids-----')
         
+
 if __name__ == '__main__':
     ###TODO: handle input arguments
     #Check to make sure they're strings
-    
-    multi_bxh2bids(sys.argv)
+    #multi_bxh2bids(sys.argv)
+    pass
     
     

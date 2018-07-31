@@ -1,6 +1,4 @@
-
-
-import bxh2bids
+from . import bxh2bids
 import os
 import json
 
